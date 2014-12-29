@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetIn", "NetIn\NetIn.csproj", "{B960760C-1689-4507-AF56-E520A1B823DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuronNetwork", "NeuronNetwork\NeuronNetwork.csproj", "{E730E4F6-5725-4BF9-BF78-999DA517EDFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuronNetwork.MatrixInput", "NeuronNetwork.MatrixInput\NeuronNetwork.MatrixInput.csproj", "{3AC4F0A3-D466-4765-ABA3-EFBCA0A61760}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B960760C-1689-4507-AF56-E520A1B823DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B960760C-1689-4507-AF56-E520A1B823DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B960760C-1689-4507-AF56-E520A1B823DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B960760C-1689-4507-AF56-E520A1B823DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E730E4F6-5725-4BF9-BF78-999DA517EDFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E730E4F6-5725-4BF9-BF78-999DA517EDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E730E4F6-5725-4BF9-BF78-999DA517EDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E730E4F6-5725-4BF9-BF78-999DA517EDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AC4F0A3-D466-4765-ABA3-EFBCA0A61760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AC4F0A3-D466-4765-ABA3-EFBCA0A61760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AC4F0A3-D466-4765-ABA3-EFBCA0A61760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AC4F0A3-D466-4765-ABA3-EFBCA0A61760}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
