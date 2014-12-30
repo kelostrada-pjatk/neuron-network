@@ -9,6 +9,12 @@ namespace NeuronNetwork.Neuron
     {
         private static readonly Random Random = new Random();
 
+        public void ResetOutput()
+        {
+            _outputCalculated = false;
+            _errorCalculated = false;
+        }
+
         private bool _outputCalculated = false;
         private double _output;
 
@@ -22,12 +28,54 @@ namespace NeuronNetwork.Neuron
             }
         }
 
+        private bool _isOutput = false;
+
+        public double ExpectedOutput { get; set; }
+
+        public double GetWeight(IOutput input)
+        {
+            int index = Inputs.FindIndex(i => i == input);
+            return Weights[index];
+        }
+
+        private bool _errorCalculated = false;
+        private double _error;
+
         public double Error
         {
             get
             {
-                throw new NotImplementedException();
+                if (_errorCalculated)
+                {
+                    return _error;
+                }
+
+                double d = 0;
+                if (_isOutput)
+                {
+                    //d = (_output - ExpectedOutput) * (_output - ExpectedOutput) / 2;
+                    d = (ExpectedOutput - _output);
+                }
+                else
+                {
+                    foreach (var o in Outputs)
+                    {
+                        d += o.Error * o.GetWeight(this);
+                    }
+                }
+                _error = _output * (1 - _output) * d;
+                _errorCalculated = true;
+                return _error;
             }
+        }
+
+        public void CorrectWeights()
+        {
+            for (var i = 0; i < Inputs.Count; i++)
+            {
+                Weights[i] += 0.5 * Error * Inputs[i].OutputValue;
+            }
+            BiasWeight += 0.5 * Error * Bias.OutputValue;
         }
 
         public List<IOutput> Inputs { get; private set; }
@@ -52,6 +100,12 @@ namespace NeuronNetwork.Neuron
             {
                 AddInput(input);
             }
+        }
+
+        public Perceptron(IActivationFunction activationFunction, bool isOutput)
+            : this(activationFunction)
+        {
+            _isOutput = isOutput;
         }
 
         public void AddInput(IOutput input, double weight)

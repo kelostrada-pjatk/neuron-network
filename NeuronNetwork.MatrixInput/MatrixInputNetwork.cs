@@ -15,7 +15,6 @@ namespace NeuronNetwork.MatrixInput
         private static readonly double[] Expected = {1, 1, 0, 2, 7};
         private bool _expectedResult = true;
 
-
         private readonly List<Input> _inputs = new List<Input>();
         private readonly List<Perceptron> _layer1 = new List<Perceptron>();
         private readonly List<Perceptron> _layer2 = new List<Perceptron>();
@@ -25,7 +24,7 @@ namespace NeuronNetwork.MatrixInput
         public MatrixInputNetwork()
         {
             // Create output
-            Output = new Perceptron(new ActivationSigmoid());
+            Output = new Perceptron(new ActivationSigmoid(), true);
 
             // Create layer1 and pin inputs to it
             for (var k = 0; k < Size; k++)
@@ -60,12 +59,16 @@ namespace NeuronNetwork.MatrixInput
 
         public double CalculateOutput(Matrix[] inputs)
         {
+            ResetOutputs();
+
             // Need to check expected result
             _expectedResult = true;
             for (var i = 0; i < Size; i++)
             {
                 _expectedResult &= Expected[i].CompareTo(inputs[i].Value) == 0;
             }
+
+            Output.ExpectedOutput = _expectedResult ? 1 : 0;
 
             for (var k = 0; k < Size; k++)
             {
@@ -82,6 +85,34 @@ namespace NeuronNetwork.MatrixInput
             return Output.OutputValue;
         }
 
+        public void ResetOutputs()
+        {
+            foreach (var p in _layer1)
+            {
+                p.ResetOutput();
+            }
 
+            foreach (var p in _layer2)
+            {
+                p.ResetOutput();
+            }
+
+            Output.ResetOutput();
+        }
+
+        public void BackProp()
+        {
+            Output.CorrectWeights();
+
+            foreach (var p in _layer2)
+            {
+                p.CorrectWeights();
+            }
+
+            foreach (var p in _layer1)
+            {
+                p.CorrectWeights();
+            }
+        }
     }
 }

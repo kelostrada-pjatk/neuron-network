@@ -36,9 +36,12 @@ namespace NeuronNetwork.MatrixInput
 
         public static Matrix Random()
         {
-            var values = new double[Size,Size];
+            return Random(Rand.Next(0, 10));
+        }
 
-            var val = Rand.Next(0, 10);
+        public static Matrix Random(int val)
+        {
+            var values = new double[Size, Size];
 
             while (val > 0)
             {

@@ -12,30 +12,54 @@ namespace NetIn
 {
     class Program
     {
-
-        private static void Main(string[] args)
+        private static Matrix[] RandomMatrix()
         {
             var inputs = new Matrix[5];
+            for (var i = 0; i < 5; i++) inputs[i] = Matrix.Random();
+            return inputs;
+        }
 
-            for (var i = 0; i < 5; i++)
+        private static Matrix[] RandomCorrectMatrix()
+        {
+            var inputs = new[]
             {
-                inputs[i] = Matrix.Random();
-            }
-
+                Matrix.Random(1),
+                Matrix.Random(1),
+                Matrix.Random(0),
+                Matrix.Random(2),
+                Matrix.Random(7)
+            };
+            return inputs;
+        }
+        
+        private static void Main(string[] args)
+        {
             var network = new MatrixInputNetwork();
 
-            Console.WriteLine(network.CalculateOutput(inputs));
-
-            inputs = new[]
+            for (int i = 0; i < 2000; i++)
             {
-                Matrix.Concrete(1),
-                Matrix.Concrete(1),
-                Matrix.Concrete(0),
-                Matrix.Concrete(2),
-                Matrix.Concrete(7)
-            };
+                network.CalculateOutput(RandomMatrix());
+                network.BackProp();
+                var actual = network.CalculateOutput(RandomMatrix());
+                var expected = network.Output.ExpectedOutput;
 
-            Console.WriteLine(network.CalculateOutput(inputs));
+                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
+
+                network.CalculateOutput(RandomMatrix());
+                network.BackProp();
+                actual = network.CalculateOutput(RandomMatrix());
+                expected = network.Output.ExpectedOutput;
+
+                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
+
+                network.CalculateOutput(RandomCorrectMatrix());
+                network.BackProp();
+                actual = network.CalculateOutput(RandomCorrectMatrix());
+                expected = network.Output.ExpectedOutput;
+
+                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
+            }
+
         }
 
 
