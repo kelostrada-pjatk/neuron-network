@@ -42,3 +42,8 @@ This project is a library which references to `NeuronNetwork`. In it you can fin
 which is used for the single digit representations (and it gives you a possibility to create some random matrices).
 Also there is a class Called `MatrixInputNetwork` which gives all network nodes a proper order of making calculations 
 and backwards propagations.
+
+Author
+------
+
+Bartosz Kalinowski s11027
