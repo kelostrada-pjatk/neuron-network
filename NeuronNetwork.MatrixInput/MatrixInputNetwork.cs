@@ -12,7 +12,7 @@ namespace NeuronNetwork.MatrixInput
     public class MatrixInputNetwork
     {
         private const int Size = 5;
-        private static readonly double[] Expected = {1, 1, 0, 2, 7};
+        private static readonly double[] Expected = { 1, 1, 0, 2, 7 };
         private bool _expectedResult = true;
 
         private readonly List<Input> _inputs = new List<Input>();
@@ -76,7 +76,7 @@ namespace NeuronNetwork.MatrixInput
                 {
                     for (var j = 0; j < Matrix.Size; j++)
                     {
-                        var index = k*Matrix.Size*Matrix.Size + i*Matrix.Size + j;
+                        var index = k * Matrix.Size * Matrix.Size + i * Matrix.Size + j;
                         _inputs[index].OutputValue = inputs[k][i, j];
                     }
                 }
@@ -113,6 +113,75 @@ namespace NeuronNetwork.MatrixInput
             {
                 p.CorrectWeights();
             }
+        }
+
+        public double[, ,] GetNetworkWeights()
+        {
+            var inputsCount = Matrix.Size * Matrix.Size;
+
+            double[, ,] weights = new double[3, Size, inputsCount + 1];
+
+            // Fill weights from layer1
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < inputsCount; j++)
+                {
+                    weights[0, i, j] = _layer1[i].Weights[j];
+                }
+                weights[0, i, inputsCount] = _layer1[i].BiasWeight;
+            }
+
+            // Fill weights from layer2
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    weights[1, i, j] = _layer2[i].Weights[j];
+                }
+                weights[1, i, Size] = _layer2[i].BiasWeight;
+            }
+
+            // Fill weights from output layer
+            for (int i = 0; i < Size; i++)
+            {
+                weights[2, 0, i] = Output.Weights[i];
+            }
+            weights[2, 0, Size] = Output.BiasWeight;
+
+            return weights;
+        }
+
+        public void SetNetworkWeights(double[, ,] weights)
+        {
+            var inputsCount = Matrix.Size * Matrix.Size;
+
+            // Fill weights of layer1
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < inputsCount; j++)
+                {
+                    _layer1[i].Weights[j] = weights[0, i, j];
+                }
+                _layer1[i].BiasWeight = weights[0, i, inputsCount];
+            }
+
+            // Fill weights of layer2
+            for (int i = 0; i < Size; i++)
+            {
+                for (int j = 0; j < Size; j++)
+                {
+                    _layer2[i].Weights[j] = weights[1, i, j];
+                }
+                _layer2[i].BiasWeight = weights[1, i, Size];
+            }
+
+            // Fill weights of output layer
+            for (int i = 0; i < Size; i++)
+            {
+                Output.Weights[i] = weights[2, 0, i];
+            }
+            Output.BiasWeight = weights[2, 0, Size];
+
         }
     }
 }

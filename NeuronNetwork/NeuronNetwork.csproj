@@ -42,9 +42,6 @@
     <Compile Include="Activation\ActivationSigmoid.cs" />
     <Compile Include="Activation\ActivationThreshold.cs" />
     <Compile Include="Activation\IActivationFunction.cs" />
-    <Compile Include="ILayer.cs" />
-    <Compile Include="NeuronLayer.cs" />
-    <Compile Include="Network.cs" />
     <Compile Include="Neuron\Bias.cs" />
     <Compile Include="Neuron\IInput.cs" />
     <Compile Include="Neuron\INode.cs" />

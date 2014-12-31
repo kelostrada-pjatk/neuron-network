@@ -53,7 +53,6 @@ namespace NeuronNetwork.Neuron
                 double d = 0;
                 if (_isOutput)
                 {
-                    //d = (_output - ExpectedOutput) * (_output - ExpectedOutput) / 2;
                     d = (ExpectedOutput - _output);
                 }
                 else
@@ -86,7 +85,7 @@ namespace NeuronNetwork.Neuron
         public List<IInput> Outputs { get; private set; }
 
         public Bias Bias { get; set; }
-        public double BiasWeight { get; private set; }
+        public double BiasWeight { get; set; }
 
         public IActivationFunction ActivationFunction { get; private set; }
 
