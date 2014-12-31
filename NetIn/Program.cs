@@ -31,35 +31,53 @@ namespace NetIn
             };
             return inputs;
         }
+
+        private static List<Matrix[]> TestingSet = new List<Matrix[]>();
         
         private static void Main(string[] args)
         {
-            var network = new MatrixInputNetwork();
+            int i = 0;
 
-            for (int i = 0; i < 2000; i++)
+            for (i = 0; i < 50000; i++)
             {
-                network.CalculateOutput(RandomMatrix());
-                network.BackProp();
-                var actual = network.CalculateOutput(RandomMatrix());
-                var expected = network.Output.ExpectedOutput;
-
-                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
-
-                network.CalculateOutput(RandomMatrix());
-                network.BackProp();
-                actual = network.CalculateOutput(RandomMatrix());
-                expected = network.Output.ExpectedOutput;
-
-                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
-
-                network.CalculateOutput(RandomCorrectMatrix());
-                network.BackProp();
-                actual = network.CalculateOutput(RandomCorrectMatrix());
-                expected = network.Output.ExpectedOutput;
-
-                Console.WriteLine("Actual: {0}, Expected: {1}", actual, expected);
+                TestingSet.Add(RandomCorrectMatrix());
+                TestingSet.Add(RandomMatrix());
             }
 
+            for (double Mi = 0.5; Mi <= 10; Mi += 0.5)
+            {
+                for (double Eta = 0.1; Eta <= 1; Eta += 0.1)
+                {
+                    Perceptron.Eta = Eta;
+                    ActivationSigmoid.Mi = Mi;
+
+                    var network = new MatrixInputNetwork();
+
+                    var last100Errors = new Queue<double>();
+
+                    for (i = 0; i < 100000; i++)
+                    {
+                        network.CalculateOutput(TestingSet[i]);
+                        network.BackProp();
+                        var actual = network.CalculateOutput(TestingSet[i]);
+                        var expected = network.Output.ExpectedOutput;
+                        var error = Math.Abs(expected - actual);
+
+                        if (last100Errors.Count == 100)
+                        {
+                            last100Errors.Dequeue();
+                        }
+
+                        last100Errors.Enqueue(error);
+
+                        if (last100Errors.Count == 100 && last100Errors.Average() < 0.01) break;
+
+                        //Console.WriteLine("Actual: {0:0.#####}, Expected: {1}", actual, expected);
+                    }
+
+                    Console.WriteLine("Error: {1:0.0000}. Mi: {2:0.00}, Eta: {3:0.00}. Took {0} iterations.", i, last100Errors.Average(), Mi, Eta);
+                }
+            }
         }
 
 

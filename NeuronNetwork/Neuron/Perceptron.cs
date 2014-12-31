@@ -63,19 +63,21 @@ namespace NeuronNetwork.Neuron
                         d += o.Error * o.GetWeight(this);
                     }
                 }
-                _error = _output * (1 - _output) * d;
+                _error = ActivationFunction.DerivativeFunction( _output ) * d;
                 _errorCalculated = true;
                 return _error;
             }
         }
 
+        public static double Eta = 0.1;
+
         public void CorrectWeights()
         {
             for (var i = 0; i < Inputs.Count; i++)
             {
-                Weights[i] += 0.5 * Error * Inputs[i].OutputValue;
+                Weights[i] += Eta * Error * Inputs[i].OutputValue;
             }
-            BiasWeight += 0.5 * Error * Bias.OutputValue;
+            BiasWeight += Eta * Error * Bias.OutputValue;
         }
 
         public List<IOutput> Inputs { get; private set; }
