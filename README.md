@@ -1,6 +1,8 @@
 Neuron Network - Simple project
 ==============
 
+Polish documents explaining how this network works can be found in Docs\ directory.
+
 The solution consists of three projects:
 - NetIn
 - NeuronNetwork
